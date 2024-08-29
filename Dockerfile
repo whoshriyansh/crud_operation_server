@@ -1,14 +1,25 @@
-FROM  node:alpine3.18
+# Use the official Node.js image
+FROM node:16-alpine
 
-WORKDIR /app
+# Set the working directory inside the container
+WORKDIR /usr/src/app
 
-COPY package.json ./
+# Copy the package.json and package-lock.json files
+COPY package*.json ./
 
-RUN npm install
+# Install the app dependencies
+RUN npm install --production
 
+# Copy the rest of the application files
 COPY . .
 
+# Expose the port the app will run on
 EXPOSE 4000
 
-CMD [ "npm", "run", "start" ]
+# Define environment variables (these will be overwritten by the GitHub Actions secrets)
+ENV PORT=4000
+ENV MONGO_URI=mongodb+srv://shriyanshlohia0:QRxdKSqZVpUOfH7K@cluster0.sbjfy.mongodb.net/
+ENV JWT_SECRET=secrethellohieyehaga
 
+# Start the application
+CMD ["node", "index.js"]

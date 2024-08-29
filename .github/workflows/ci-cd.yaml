@@ -19,11 +19,11 @@ jobs:
 
       # Step 3: Build the Docker image
       - name: Build Docker Image
-        run: docker build -t your-dockerhub-username/nodejs-app:latest .
+        run: docker build -t whoshriyansh/nodejs-app:latest .
 
       # Step 4: Push the Docker image to Docker Hub
       - name: Push Docker Image
-        run: docker push your-dockerhub-username/nodejs-app:latest
+        run: docker push whoshriyansh/nodejs-app:latest
 
   deploy:
     needs: build
@@ -31,7 +31,7 @@ jobs:
     steps:
       # Step 5: Pull the Docker image on the EC2 instance
       - name: Pull Docker Image
-        run: docker pull your-dockerhub-username/nodejs-app:latest
+        run: docker pull whoshriyansh/nodejs-app:latest
 
       # Step 6: Stop and remove the old container (if any)
       - name: Remove Old Container
@@ -47,4 +47,4 @@ jobs:
             --name nodejs-app-container \
             -e MONGO_URI=${{ secrets.MONGO_URI }} \
             -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
-            your-dockerhub-username/nodejs-app:latest
+            whoshriyansh/nodejs-app:latest

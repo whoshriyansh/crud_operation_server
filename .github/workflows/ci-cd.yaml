@@ -43,7 +43,7 @@ jobs:
       - name: Run New Container
         run: |
           docker run -d \
-            -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
+            -p 4000:4000 \
             --name nodejs-app-container \
             -e MONGO_URI=${{ secrets.MONGO_URI }} \
             -e JWT_SECRET=${{ secrets.JWT_SECRET }} \

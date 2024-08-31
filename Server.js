@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: "Hello World" });
+  res.send("Hello World!");
 });
 
 app.use("/api/admin", adminRoutes);

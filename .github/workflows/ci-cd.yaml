@@ -3,43 +3,36 @@ name: Deploy Node Application
 on:
   push:
     branches:
-      - main # Trigger on push to the main branch
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest]
     steps:
-      # Step 1: Check out the repository
       - name: Checkout Source
         uses: actions/checkout@v4
 
-      # Step 2: Log in to Docker Hub
       - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 3: Build the Docker image
       - name: Build Docker Image
         run: docker build -t whoshriyansh/nodejs-app:latest .
 
-      # Step 4: Push the Docker image to Docker Hub
       - name: Push Docker Image
         run: docker push whoshriyansh/nodejs-app:latest
 
   deploy:
     needs: build
-    runs-on: self-hosted # This job will run on your self-hosted runner (e.g., EC2 instance)
+    runs-on: [aws-ec2]
     steps:
-      # Step 5: Pull the Docker image on the EC2 instance
       - name: Pull Docker Image
         run: docker pull whoshriyansh/nodejs-app:latest
 
-      # Step 6: Stop and remove the old container (if any)
       - name: Remove Old Container
         run: |
           docker stop nodejs-app-container || true
           docker rm nodejs-app-container || true
 
-      # Step 7: Run the new container with the secrets from GitHub
       - name: Run New Container
         run: |
           docker run -d \

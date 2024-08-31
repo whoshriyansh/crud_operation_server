@@ -22,4 +22,4 @@ ENV MONGO_URI=mongodb+srv://shriyanshlohia0:QRxdKSqZVpUOfH7K@cluster0.sbjfy.mong
 ENV JWT_SECRET=secrethellohieyehaga
 
 # Start the application
-CMD ["node", "index.js"]
+CMD ["node", "Server.js"]
